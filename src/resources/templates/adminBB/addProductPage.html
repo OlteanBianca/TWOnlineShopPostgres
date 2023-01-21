@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <div th:include="fragments/components::header"></div>
+    <title></title>
+</head>
+
+<body>
+
+<div class="container mt-5" th:object="${authorizationToken}">
+    <div class="shadow p-3 mb-5 bg-body rounded">
+
+        <h2 class="form-heading text-center">Add new product to inventory</h2>
+        <br><br><br>
+
+        <form method="post" th:object="${inventory}"
+              th:action="@{/ROLE_ADMIN_BB/addProduct(Authorization=${authorizationToken})}">
+            <div class="form-floating mb-3">
+                <div class="form-group">
+
+                    <label for="product"></label>
+                    <select name="product" id="product" th:field="*{product.id}">
+                        <option value="0">Select product</option>
+                        <option th:each="product :${allProducts}" th:value="${product.id}"
+                                th:text="${product.name}"></option>
+                    </select>
+                    <br><br><br>
+
+                    <!-- quantity -->
+                    <div class="form-floating mb-3">
+                        <input id="quantity"
+                               name="quantity"
+                               type="number"
+                               class="form-control"
+                               placeholder="Quantity"
+                               th:field="*{quantity}"
+                               autofocus="autofocus">
+                        <label for="quantity">Quantity</label>
+                    </div>
+                </div>
+            </div>
+            <div class="text-center text-lg-start mt-4 pt-2">
+                <button class="btn btn-primary btn-lg" style="padding-left: 2.5rem; padding-right: 2.5rem;"
+                        type="submit"> Add
+                </button>
+            </div>
+        </form>
+        <form th:object="${authorizationToken}">
+            <div class="text-center text-lg-start mt-4 pt-2">
+                <a class="btn btn-primary btn-lg" style="padding-left: 2.5rem; padding-right: 2.5rem;"
+                   th:href="@{/ROLE_ADMIN_BB(Authorization=${authorizationToken})}">
+                    Cancel
+                </a>
+            </div>
+        </form>
+    </div>
+</div>
+
+<div th:include="fragments/components::bootstrap_script"></div>
+
+</body>
+</html>

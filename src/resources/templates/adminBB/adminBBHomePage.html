@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org">
+<head th:include="fragments/components::header"><title></title></head>
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+    <style>
+        table {
+            font-family: arial, sans-serif;
+            border-collapse: collapse;
+            width: 100%;
+        }
+
+        td, th {
+            border: 1px solid #dddddd;
+            text-align: left;
+            padding: 8px;
+        }
+
+        tr:nth-child(even) {
+            background-color: #dddddd;
+        }
+    </style>
+
+</head>
+<body>
+<div method="GET" class="container mt-4">
+    <form th:object="${authorizationToken}">
+        <div class="w3-row-padding">
+            <div class="text-center text-lg-start">
+                <a class="btn btn-primary btn-lg" style="padding-left: 2.5rem; padding-right: 2.5rem;"
+                   th:href="@{/ROLE_ADMIN_BB/addProduct(Authorization=${authorizationToken})}">
+                    Add new product to inventory
+                </a>
+            </div>
+            <div class="text-center text-lg-start mt-2 pt-2">
+                <a class="btn btn-primary btn-lg" style="padding-left: 2.5rem; padding-right: 2.5rem;"
+                   th:href="@{/ROLE_ADMIN_BB/createProduct(Authorization=${authorizationToken})}">
+                    Create new product
+                </a>
+            </div>
+            <div class="text-center text-lg-start mt-2 pt-2">
+                <a class="btn btn-primary btn-lg" style="padding-left: 2.5rem; padding-right: 2.5rem;"
+                   th:href="@{/ROLE_ADMIN_BB/commands(Authorization=${authorizationToken})}">
+                    View commands
+                </a>
+            </div>
+        </div>
+    </form>
+
+    <br>
+
+    <tr th:if="${shopProducts == null || shopProducts.isEmpty()}">
+        <td colspan="2"> No Products Available</td>
+    </tr>
+    <tr th:if="${shopProducts != null && !shopProducts.isEmpty()}">
+        <form method="post" th:object="${shopProducts}" th:action="@{/ROLE_ADMIN_BB}">
+            <table>
+                <tr>
+                    <th>Product</th>
+                    <th>Description</th>
+                    <th>Expiration Date</th>
+                    <th>Quantity</th>
+                </tr>
+                <tr th:each="product : ${shopProducts}">
+                    <td th:text="${product.getKey().getName()}"></td>
+                    <td th:text="${product.getKey().getDescription()}"></td>
+                    <td th:text="${product.getKey().getExpirationDate()}"></td>
+                    <td>
+                        <div class="form-floating">
+                            <input id="usernameInput" name="username" type="number" class="form-control"
+                                   placeholder="Username" autofocus="autofocus"
+                                   th:value="${product.getValue()}">
+                            <label for="usernameInput"></label>
+                        </div>
+                    </td>
+                </tr>
+            </table>
+            <div class="text-center text-lg-start mt-4 pt-2">
+                <button class="btn btn-primary btn-lg" style="padding-left: 2.5rem; padding-right: 2.5rem;"
+                        type="submit">
+                    Save
+                </button>
+            </div>
+        </form>
+    </tr>
+</div>
+<div th:include="fragments/components::bootstrap_script"></div>
+</body>
+</html>

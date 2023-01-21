@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org">
+<head th:include="fragments/components::header"><title></title></head>
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+    <style>
+        table {
+            font-family: arial, sans-serif;
+            border-collapse: collapse;
+            width: 100%;
+        }
+
+        td, th {
+            border: 1px solid #dddddd;
+            text-align: left;
+            padding: 8px;
+        }
+
+        tr:nth-child(even) {
+            background-color: #dddddd;
+        }
+    </style>
+
+</head>
+<body>
+<div method="GET" class="container mt-4">
+    <form th:object="${authorizationToken}">
+        <div class="w3-row-padding">
+            <div class="text-center text-lg-start">
+                <a class="btn btn-primary btn-lg" style="padding-left: 2.5rem; padding-right: 2.5rem;"
+                   th:href="@{/ROLE_ADMIN/resetPassword(Authorization=${authorizationToken})}">
+                    Reset Password
+                </a>
+            </div>
+        </div>
+    </form>
+
+    <br>
+
+    <tr th:if="${requests == null || requests.isEmpty()}">
+        <td colspan="2"> No Requests Available</td>
+    </tr>
+    <form method="get" th:object="${requests}" th:action="@{/ROLE_ADMIN}">
+        <table>
+            <tr>
+                <th>Username</th>
+                <th>Email</th>
+                <th>Role</th>
+                <th>Shop name</th>
+                <th>Address</th>
+                <th>Code</th>
+                <th>Approve</th>
+            </tr>
+
+            <tr th:if="${requests != null && !requests.isEmpty()}">
+            <tr th:each="request : ${requests}">
+                <td th:text="${request.username}"></td>
+                <td th:text="${request.email}"></td>
+                <td th:text="${request.role.name}"></td>
+                <td th:text="${request.shopName}"></td>
+                <td th:text="${request.address}"></td>
+                <td th:text="${request.code}"></td>
+
+                <td>
+                    <form th:object="${authorizationToken}">
+                        <div class="w3-row-padding">
+                            <div class="text-center text-lg-start">
+                                <a class="btn btn-primary btn-lg" style="padding-left: 2.5rem; padding-right: 2.5rem;"
+                                   th:href="@{/ROLE_ADMIN/{id}(id=${request.id}, Authorization=${authorizationToken})}">
+                                    Approve
+                                </a>
+                            </div>
+                        </div>
+                    </form>
+                </td>
+            </tr>
+        </table>
+
+        <div class="text-center text-lg-start mt-4 pt-2">
+            <a class="btn btn-primary btn-lg" style="padding-left: 2.5rem; padding-right: 2.5rem;"
+               href="/login">
+                Logout
+            </a>
+        </div>
+    </form>
+
+</div>
+
+<div th:include="fragments/components::bootstrap_script"></div>
+</body>
+</html>

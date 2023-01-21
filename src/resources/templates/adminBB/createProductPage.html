@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <div th:include="fragments/components::header"></div>
+    <title></title>
+</head>
+
+<body>
+
+<div class="container mt-5" th:object="${authorizationToken}">
+    <div class="shadow p-3 mb-5 bg-body rounded">
+        <h2 class="form-heading text-center">Add new product </h2>
+
+        <form method="POST" class="form-signin" th:object="${product}"
+              th:action="@{/ROLE_ADMIN_BB/createProduct(Authorization=${authorizationToken})}">
+
+            <div class="form-group">
+                <!-- name -->
+                <div class="form-floating mb-3">
+                    <input id="productName"
+                           name="productName"
+                           type="text"
+                           class="form-control"
+                           placeholder="Product Name"
+                           th:field="*{name}"
+                           autofocus="autofocus">
+                    <label for="productName">Product name</label>
+                    <span class="has-error" th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></span>
+                </div>
+
+                <!-- description -->
+                <div class="form-floating mb-3">
+                    <input id="descriptionInput"
+                           name="descriptionInput"
+                           type="text"
+                           class="form-control"
+                           placeholder="Description"
+                           th:field="*{description}"
+                           autofocus="autofocus">
+                    <label for="descriptionInput">Description</label>
+                </div>
+
+                <!-- expiration date -->
+                <div class="form-floating mb-3">
+                    <input id="expirationDateInput"
+                           name="expirationDate"
+                           type="date"
+                           class="form-control"
+                           th:field="*{expirationDate}"
+                           placeholder="Expiration Date">
+                    <label for="expirationDateInput">Expiration Date</label>
+                </div>
+
+            </div>
+
+            <div class="text-center text-lg-start mt-4 pt-2">
+                <button class="btn btn-primary btn-lg" style="padding-left: 2.5rem; padding-right: 2.5rem;"
+                        type="submit"> Add
+                </button>
+                <form th:object="${authorizationToken}">
+                    <div class="text-center text-lg-start mt-4 pt-2">
+                        <a class="btn btn-primary btn-lg" style="padding-left: 2.5rem; padding-right: 2.5rem;"
+                           th:href="@{/ROLE_ADMIN_BB(Authorization=${authorizationToken})}">
+                            Cancel
+                        </a>
+                    </div>
+                </form>
+            </div>
+
+        </form>
+
+    </div>
+</div>
+
+<div th:include="fragments/components::bootstrap_script"></div>
+
+</body>
+</html>

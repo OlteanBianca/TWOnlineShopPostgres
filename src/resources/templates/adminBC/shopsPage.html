@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <div th:include="fragments/components::header"></div>
+    <title>Online Shop</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Montserrat">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+</head>
+
+<style>
+    .w3-sidebar a {
+        font-family: "Roboto", sans-serif
+    }
+
+    body, h1, h2, h3, h4, h5, h6, p, input {
+        font-family: "Montserrat", sans-serif;
+    }
+</style>
+
+<body class="w3-content" style="max-width:1200px" th:object="${authorizationToken}">
+
+<nav class="w3-sidebar w3-bar-block w3-white w3-collapse w3-top" style="z-index:3;width:250px" id="mySidebar"
+     th:object="${authorizationToken}">
+    <div class="w3-container w3-display-container w3-padding-16">
+        <h3 class="w3-wide"><b>SHOPS</b></h3>
+    </div>
+
+    <tr th:if="${shops == null || shops.isEmpty()}">
+        <td colspan="2"> No Shops Available</td>
+    </tr>
+
+    <form th:object="${shops}" method="POST" th:action="@{/ROLE_ADMIN_BC/shops(Authorization=${authorizationToken})}">
+        <div class="w3-padding-64 w3-large" style="font-weight:bold">
+            <div class="row">
+
+                <tr th:if="${shops != null && !shops.isEmpty()}">
+                <tr th:each="shop : ${shops}">
+                    <label>
+                        <input type="checkbox" style="width:20px;height:20px;" th:text="' ' + ${shop.name}"
+                               th:value="${shop.checked}"/>
+                    </label>
+                </tr>
+                <div class="text-center text-lg-start mt-4 pt-2">
+                    <button class="btn btn-primary btn-lg" style="padding-left: 2.5rem; padding-right: 2.5rem;"
+                            type="submit"> Search
+                    </button>
+                </div>
+            </div>
+        </div>
+    </form>
+</nav>
+
+
+<div class="w3-main" style="margin-left:250px">
+
+    <div class="w3-container w3-display-container w3-padding-16">
+        <h3 class="w3-wide"><b>PRODUCTS</b></h3>
+    </div>
+    <form th:object="${DTO}" method="post">
+        <div class="w3-right">
+            <input id="floatingInput"
+                   name="search"
+                   type="text"
+                   th:field="*{searchedText}"
+                   class="form-control"
+                   placeholder="Search..."
+                   autofocus="autofocus"/>
+            <label for="floatingInput"></label>
+            <button class="btn btn-primary btn-lg" style="padding-left: 2.5rem; padding-right: 2.5rem;" type="submit"> Submit </button>
+        </div>
+    </form>
+
+    <div class="w3-row-padding w3-center w3-light-grey">
+
+        <tr th:if="${products == null || products.isEmpty()}">
+            <td colspan="2"> No Products Available</td>
+        </tr>
+        <tr th:if="${products != null && !products.isEmpty()}">
+        <tr th:each="product : ${products}">
+            <div class="w3-col s3 l4">
+                <h3 th:text="${product.getName()}"></h3>
+            </div>
+        </tr>
+
+    </div>
+
+</div>
+
+<div th:include="fragments/components::bootstrap_script"></div>
+
+</body>
+</html>

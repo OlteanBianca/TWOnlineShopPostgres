@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org">
+<head th:include="fragments/components::header"><title></title></head>
+
+<body>
+<div class="container mt-5">
+    <div class="shadow p-3 mb-5 bg-body rounded">
+        <form class="form-signin">
+            <h2 class="form-heading text-center">Your request was successfully saved!</h2>
+            <h2 class="form-heading text-center">Please wait until it gets approved!</h2>
+
+            <div class="form-group">
+                <div class="text-center text-lg-start mt-4 pt-2">
+                    <button class="btn btn-primary btn-lg" style="padding-left: 2.5rem; padding-right: 2.5rem;"
+                            type="submit"> Login
+                    </button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+<div th:include="fragments/components::bootstrap_script"></div>
+
+</body>
+</html>

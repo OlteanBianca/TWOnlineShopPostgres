@@ -1,0 +1,62 @@
+<component name="InspectionProjectProfileManager">
+  <profile version="1.0">
+    <option name="myName" value="Project Default" />
+    <inspection_tool class="CssUnknownProperty" enabled="true" level="WARNING" enabled_by_default="true">
+      <option name="myCustomPropertiesEnabled" value="true" />
+      <option name="myIgnoreVendorSpecificProperties" value="false" />
+      <option name="myCustomPropertiesList">
+        <value>
+          <list size="1">
+            <item index="0" class="java.lang.String" itemvalue="transform" />
+          </list>
+        </value>
+      </option>
+    </inspection_tool>
+    <inspection_tool class="HtmlUnknownAttribute" enabled="true" level="WARNING" enabled_by_default="true">
+      <option name="myValues">
+        <value>
+          <list size="5">
+            <item index="0" class="java.lang.String" itemvalue="method" />
+            <item index="1" class="java.lang.String" itemvalue="#if(ischecked){#" />
+            <item index="2" class="java.lang.String" itemvalue="#}#" />
+            <item index="3" class="java.lang.String" itemvalue="path" />
+            <item index="4" class="java.lang.String" itemvalue="modelattribute" />
+          </list>
+        </value>
+      </option>
+      <option name="myCustomValuesEnabled" value="true" />
+    </inspection_tool>
+    <inspection_tool class="HtmlUnknownTag" enabled="true" level="WARNING" enabled_by_default="true">
+      <option name="myValues">
+        <value>
+          <list size="18">
+            <item index="0" class="java.lang.String" itemvalue="nobr" />
+            <item index="1" class="java.lang.String" itemvalue="noembed" />
+            <item index="2" class="java.lang.String" itemvalue="comment" />
+            <item index="3" class="java.lang.String" itemvalue="noscript" />
+            <item index="4" class="java.lang.String" itemvalue="embed" />
+            <item index="5" class="java.lang.String" itemvalue="script" />
+            <item index="6" class="java.lang.String" itemvalue="div" />
+            <item index="7" class="java.lang.String" itemvalue="tbody" />
+            <item index="8" class="java.lang.String" itemvalue="li" />
+            <item index="9" class="java.lang.String" itemvalue="label" />
+            <item index="10" class="java.lang.String" itemvalue="tr" />
+            <item index="11" class="java.lang.String" itemvalue="h2" />
+            <item index="12" class="java.lang.String" itemvalue="form" />
+            <item index="13" class="java.lang.String" itemvalue="th" />
+            <item index="14" class="java.lang.String" itemvalue="form:form" />
+            <item index="15" class="java.lang.String" itemvalue="form:input" />
+            <item index="16" class="java.lang.String" itemvalue="td" />
+            <item index="17" class="java.lang.String" itemvalue="span" />
+          </list>
+        </value>
+      </option>
+      <option name="myCustomValuesEnabled" value="true" />
+    </inspection_tool>
+    <inspection_tool class="com.haulmont.jpb.CompositeIdClassSerializable" enabled="true" level="WARNING" enabled_by_default="true">
+      <option name="n">
+        <Project />
+      </option>
+    </inspection_tool>
+  </profile>
+</component>
