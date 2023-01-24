@@ -26,22 +26,28 @@
 </head>
 <body>
 <div method="GET" class="container mt-4">
-    <form th:object="${authorizationToken}">
-        <div class="w3-row-padding">
-            <div class="text-center text-lg-start">
-                <a class="btn btn-primary btn-lg" style="padding-left: 2.5rem; padding-right: 2.5rem;"
-                   th:href="@{/ROLE_ADMIN_BC/shops(Authorization=${authorizationToken})}">
-                    Place a new command.
-                </a>
+
+    <div class="w3-container w3-display-container w3-padding-16">
+        <form th:object="${authorizationToken}">
+            <div class="w3-row-padding">
+                <div class="text-center text-lg-start w3-right">
+
+                    <a class="btn btn-primary btn-lg w3-right"
+                       th:href="@{/ROLE_ADMIN_BC/commands(Authorization=${authorizationToken})}">
+                        View commands.
+                    </a>
+                    <a class="btn btn-primary btn-lg w3-right w3-margin-right"
+                       th:href="@{/ROLE_ADMIN_BC/clientsCommands(Authorization=${authorizationToken})}">
+                        View clients commands.
+                    </a>
+                    <a class="btn btn-primary btn-lg w3-right w3-margin-right"
+                       th:href="@{/ROLE_ADMIN_BC/shops(Authorization=${authorizationToken})}">
+                        Place a new command.
+                    </a>
+                </div>
             </div>
-            <div class="text-center text-lg-start mt-2 pt-2">
-                <a class="btn btn-primary btn-lg" style="padding-left: 2.5rem; padding-right: 2.5rem;"
-                   th:href="@{/ROLE_ADMIN_BC/clientsCommands(Authorization=${authorizationToken})}">
-                    View clients commands.
-                </a>
-            </div>
-        </div>
-    </form>
+        </form>
+    </div>
 
     <br>
 
@@ -49,30 +55,29 @@
         <td colspan="2"> No Products Available</td>
     </tr>
     <tr th:if="${shopProducts != null && !shopProducts.isEmpty()}">
-        <form method="post" th:object="${shopProducts}" th:action="@{/ROLE_ADMIN_BB}">
-            <table>
-                <tr>
-                    <th>Product</th>
-                    <th>Description</th>
-                    <th>Expiration Date</th>
-                    <th>Quantity</th>
-                </tr>
-                <tr th:each="product : ${shopProducts}">
-                    <td th:text="${product.getKey().getName()}"></td>
-                    <td th:text="${product.getKey().getDescription()}"></td>
-                    <td th:text="${product.getKey().getExpirationDate()}"></td>
-                    <td>
-                        <div class="form-floating">
-                            <input id="usernameInput" name="username" type="number" class="form-control"
-                                   placeholder="Username" autofocus="autofocus"
-                                   th:value="${product.getValue()}">
-                            <label for="usernameInput"></label>
-                        </div>
-                    </td>
-                </tr>
-            </table>
-        </form>
+        <table>
+            <tr>
+                <th>Product</th>
+                <th>Description</th>
+                <th>Expiration Date</th>
+                <th>Quantity</th>
+            </tr>
+            <tr th:each="product : ${shopProducts}">
+                <td th:text="${product.getProduct().name}"></td>
+                <td th:text="${product.getProduct().description}"></td>
+                <td th:text="${product.getProduct().expirationDate}"></td>
+                <td th:text="${product.quantity}"></td>
+            </tr>
+        </table>
     </tr>
+
+    <form>
+        <div class="text-center text-lg-start mt-4 pt-2">
+            <a class="btn btn-primary btn-lg" style="padding-left: 2.5rem; padding-right: 2.5rem;" th:href="@{/login}">
+                Log out
+            </a>
+        </div>
+    </form>
 </div>
 <div th:include="fragments/components::bootstrap_script"></div>
 </body>

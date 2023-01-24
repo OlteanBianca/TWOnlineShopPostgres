@@ -6,7 +6,7 @@ import SpringBoot.Repository.ShopRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
+import java.util.*;
 
 @Service
 public class ShopService {
@@ -22,6 +22,7 @@ public class ShopService {
     }
 
     public List<Shop> findAllShopsByShopFunctionId(Long id) {
+
         return shopRepository.findAllByShopFunctionId(id);
     }
 

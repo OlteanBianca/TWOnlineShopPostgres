@@ -2,7 +2,6 @@ package SpringBoot.Controllers.Admin;
 
 import SpringBoot.Models.User;
 import SpringBoot.Security.DBServices.UserService;
-import SpringBoot.Security.JWT.JwtUtils;
 import SpringBoot.Security.Services.UserValidatorService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,16 +19,13 @@ public class ResetPasswordController {
     private final UserValidatorService userValidatorService;
     @Autowired
     private UserService userService;
-    @Autowired
-    private JwtUtils jwtUtils;
 
 
     @GetMapping()
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     public String open(Model model, @RequestParam("Authorization") String token) {
 
-        String username = jwtUtils.getUserNameFromJwtToken(token);
-        User user = userService.getUserByUsername(username);
+        User user = userService.getUserFromToken(token);
 
         model.addAttribute("authorizationToken", token);
         model.addAttribute("userForm", user);
@@ -40,7 +36,7 @@ public class ResetPasswordController {
     @PostMapping("/{id}")
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     public String resetPassword(@ModelAttribute("userForm") User userForm, BindingResult bindingResult, Model model,
-           @RequestParam("Authorization") String token) {
+                                @RequestParam("Authorization") String token) {
 
         userValidatorService.validatePassword(userForm.getPassword(), userForm.getPasswordConfirm(), bindingResult);
 

@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org">
+<head th:include="fragments/components::header"><title></title></head>
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+    <style>
+        table {
+            font-family: arial, sans-serif;
+            border-collapse: collapse;
+            width: 100%;
+        }
+
+        td, th {
+            border: 1px solid #dddddd;
+            text-align: left;
+            padding: 8px;
+        }
+
+        tr:nth-child(even) {
+            background-color: #dddddd;
+        }
+    </style>
+
+</head>
+<body>
+<div method="GET" class="container mt-4" th:object="${authorizationToken}">
+
+    <tr th:if="${commands == null || commands.isEmpty()}">
+        <td colspan="2"> No Commands Available</td>
+    </tr>
+
+    <table>
+        <tr>
+            <th>Nr.</th>
+            <th>Client</th>
+            <th>Client Email</th>
+            <th>Products</th>
+        </tr>
+
+        <tr th:if="${commands != null && !commands.isEmpty()}">
+
+        <tr th:each="command, index : ${commands}">
+            <td th:text="${index.index + 1}"></td>
+            <td th:text="${command.getUser().username}"></td>
+            <td th:text="${command.getUser().email}"></td>
+            <td>
+                <div th:each="product: ${command.getProducts()}">
+                    <h3 th:text="${product.product.name} + ' - ' + ${product.quantity}"></h3>
+                </div>
+            </td>
+        </tr>
+
+    </table>
+
+    <form th:object="${authorizationToken}">
+        <div class="text-center text-lg-start mt-4 pt-2">
+            <a class="btn btn-primary btn-lg" style="padding-left: 2.5rem; padding-right: 2.5rem;"
+               th:href="@{/ROLE_CLIENT(Authorization=${authorizationToken})}">
+                Cancel
+            </a>
+        </div>
+    </form>
+
+</div>
+
+<div th:include="fragments/components::bootstrap_script"></div>
+</body>
+</html>

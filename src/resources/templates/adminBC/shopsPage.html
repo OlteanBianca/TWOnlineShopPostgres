@@ -22,36 +22,58 @@
     }
 </style>
 
-<body class="w3-content" style="max-width:1200px" th:object="${authorizationToken}">
+<body class="w3-content" style="max-width:1450px">
 
-<nav class="w3-sidebar w3-bar-block w3-white w3-collapse w3-top" style="z-index:3;width:250px" id="mySidebar"
-     th:object="${authorizationToken}">
+<nav class="w3-sidebar w3-bar-block w3-white w3-collapse w3-top" style="z-index:3;width:250px" id="mySidebar">
     <div class="w3-container w3-display-container w3-padding-16">
         <h3 class="w3-wide"><b>SHOPS</b></h3>
     </div>
 
-    <tr th:if="${shops == null || shops.isEmpty()}">
+    <tr th:if="${allShops == null || allShops.isEmpty()}">
         <td colspan="2"> No Shops Available</td>
     </tr>
 
-    <form th:object="${shops}" method="POST" th:action="@{/ROLE_ADMIN_BC/shops(Authorization=${authorizationToken})}">
-        <div class="w3-padding-64 w3-large" style="font-weight:bold">
-            <div class="row">
+    <form th:object="${DTO}" method="POST" th:action="@{/ROLE_ADMIN_BC/shops(Authorization=${DTO.authorizationToken})}">
 
-                <tr th:if="${shops != null && !shops.isEmpty()}">
-                <tr th:each="shop : ${shops}">
-                    <label>
-                        <input type="checkbox" style="width:20px;height:20px;" th:text="' ' + ${shop.name}"
-                               th:value="${shop.checked}"/>
-                    </label>
-                </tr>
-                <div class="text-center text-lg-start mt-4 pt-2">
-                    <button class="btn btn-primary btn-lg" style="padding-left: 2.5rem; padding-right: 2.5rem;"
-                            type="submit"> Search
+        <div class="w3-padding-64 w3-large w3-row-padding" style="font-weight:bold">
+
+            <form method="post" th:action="@{/ROLE_ADMIN_BC/shops(Authorization=${DTO.authorizationToken})}">
+                <div class="w3-left">
+
+                    <input id="floatingInput" name="search" type="text" class="form-control" autofocus="autofocus"
+                           th:field="*{searchedText}" placeholder="Search product..."/>
+                    <label for="floatingInput"></label>
+                    <br>
+                    <button class="btn btn-primary btn-lg w3-right" style="padding-left: 2.5rem; padding-right: 2.5rem;"
+                            type="submit"> Search Product
                     </button>
+                </div>
+            </form>
+
+            <div class="row">
+                <ul>
+                    <br><br><br>
+                    <li th:each="shop : ${allShops}">
+                        <div class="ui checkbox">
+                            <input id="select" type="checkbox" th:field="*{selectedShops}" th:value="${shop.id}">
+                            <label for="select" th:text="${shop.name}"></label>
+                        </div>
+                    </li>
+                </ul>
+                <div class="text-center text-lg-start mt-4 pt-2">
+                    <button class="btn btn-primary btn-lg" type="submit"> Search</button>
                 </div>
             </div>
         </div>
+
+        <form>
+            <div class="text-center text-lg-start mt-4 pt-2">
+                <a class="btn btn-primary btn-lg" style="padding-left: 2.5rem; padding-right: 2.5rem;"
+                   th:href="@{/ROLE_ADMIN_BC(Authorization=${DTO.authorizationToken})}">
+                    Cancel
+                </a>
+            </div>
+        </form>
     </form>
 </nav>
 
@@ -59,36 +81,51 @@
 <div class="w3-main" style="margin-left:250px">
 
     <div class="w3-container w3-display-container w3-padding-16">
-        <h3 class="w3-wide"><b>PRODUCTS</b></h3>
+        <form th:object="${DTO.authorizationToken}">
+            <div class="w3-row-padding">
+                <div class="text-center text-lg-start">
+
+                    <a class="btn btn-primary btn-lg w3-right"
+                       th:href="@{/ROLE_ADMIN_BC/shoppingCart(Authorization=${DTO.authorizationToken})}">
+                        Go to shopping cart.
+                    </a>
+                    <h3 class="w3-wide"><b>PRODUCTS</b></h3>
+                </div>
+            </div>
+        </form>
     </div>
-    <form th:object="${DTO}" method="post">
-        <div class="w3-right">
-            <input id="floatingInput"
-                   name="search"
-                   type="text"
-                   th:field="*{searchedText}"
-                   class="form-control"
-                   placeholder="Search..."
-                   autofocus="autofocus"/>
-            <label for="floatingInput"></label>
-            <button class="btn btn-primary btn-lg" style="padding-left: 2.5rem; padding-right: 2.5rem;" type="submit"> Submit </button>
-        </div>
-    </form>
 
-    <div class="w3-row-padding w3-center w3-light-grey">
+    <tr th:if="${allProducts == null || allProducts.isEmpty()}">
+        <td colspan="2"> No Products Available</td>
+    </tr>
 
-        <tr th:if="${products == null || products.isEmpty()}">
-            <td colspan="2"> No Products Available</td>
-        </tr>
-        <tr th:if="${products != null && !products.isEmpty()}">
-        <tr th:each="product : ${products}">
-            <div class="w3-col s3 l4">
-                <h3 th:text="${product.getName()}"></h3>
+    <div class="w3-row-padding w3-center w3-light-grey" style="max-width:1250px">
+        <tr th:if="${allProducts != null && !allProducts.isEmpty()}">
+        <tr th:each="product, index: ${allProducts}">
+            <div class="w3-col s4 w3-border w3-left-align w3-margin" style="max-width: 350px">
+                <h3 th:text="${product.getProduct().name}"></h3>
+                <h4 th:if="${product.getProduct().description != null}"
+                    th:text="${'Description: ' + product.getProduct().description}"></h4>
+                <h4 th:if="${product.getProduct().expirationDate != null}"
+                    th:text="${'Expiration date: ' + product.getProduct().expirationDate}"></h4>
+                <h4 th:text="${'Shop: ' + product.getShop().name}"></h4>
+
+                <form th:object="${addedProduct}" th:method="post"
+                      th:action="@{/ROLE_ADMIN_BC/shops/{id}(id=${product.id}, Authorization=${DTO.authorizationToken})}">
+
+                    <label for="quantity" th:text="'Quantity:'"></label>
+                    <input id="quantity" type="number" th:min="0" th:field="*{quantity}">
+
+                    <br>
+
+                    <button class="btn btn-primary btn-lg w3-blue-gray w3-margin-top w3-center" type="submit"
+                            style="padding-left: 2.5rem; padding-right: 2.5rem;"> Buy
+                    </button>
+                </form>
             </div>
         </tr>
 
     </div>
-
 </div>
 
 <div th:include="fragments/components::bootstrap_script"></div>

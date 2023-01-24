@@ -1,43 +1,45 @@
-package SpringBoot.Controllers.AdminBC;
+package SpringBoot.Controllers.Client;
 
-import SpringBoot.Models.Shop;
 import SpringBoot.Models.User;
 import SpringBoot.Security.DBServices.CommandService;
-import SpringBoot.Security.DBServices.ShopService;
 import SpringBoot.Security.DBServices.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
 @Controller
-@RequestMapping("/ROLE_ADMIN_BC/clientsCommands")
+@RequestMapping("/ROLE_CLIENT/commands")
 @RequiredArgsConstructor
-public class ClientsCommandsController {
+public class ClientCommandsController {
 
     @Autowired
     private CommandService commandService;
     @Autowired
     private UserService userService;
-    @Autowired
-    private ShopService shopService;
 
 
     @GetMapping("")
-    @PreAuthorize("hasRole('ROLE_ADMIN_BC')")
+    @PreAuthorize("hasRole('ROLE_CLIENT')")
     public String openPage(Model model, @RequestParam("Authorization") String token) {
 
         User user = userService.getUserFromToken(token);
-        Shop shop = shopService.getShopByUserId(user.getId());
 
-        model.addAttribute("commands", commandService.getAllCommandsForOneShop(shop.getId()));
+        model.addAttribute("commands", commandService.getAllCommandsForOneClient(user.getId()));
         model.addAttribute("authorizationToken", token);
+        return "client/clientCommandsPage";
+    }
 
-        return "adminBC/clientsCommandsPage";
+    @PostMapping("/{id}")
+    @PreAuthorize("hasRole('ROLE_CLIENT')")
+    public String deleteCommand(@PathVariable("id") String id, @RequestParam("Authorization") String token) {
+
+        if (id != null) {
+            commandService.deleteCommandProduct(Long.valueOf(id));
+        }
+        return "redirect:/ROLE_CLIENT/commands?Authorization=" + token;
     }
 
     @GetMapping("/error")

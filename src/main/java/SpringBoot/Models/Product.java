@@ -35,6 +35,9 @@ public class Product {
     @Column(name = "expirationDate")
     private Date expirationDate;
 
+    @Transient
+    public int quantity = 0;
+
     @OneToMany(mappedBy = "product")
     @JsonIgnore
     @ToString.Exclude
@@ -45,7 +48,13 @@ public class Product {
     @ToString.Exclude
     private Collection<CommandProducts> commands;
 
-    public Product(String name, String description, Date date){
+    @OneToMany(mappedBy = "product")
+    @JsonIgnore
+    @ToString.Exclude
+    private Collection<ShoppingCartProducts> shoppingCartProducts;
+
+
+    public Product(String name, String description, Date date) {
         this.name = name;
         this.description = description;
         this.expirationDate = date;

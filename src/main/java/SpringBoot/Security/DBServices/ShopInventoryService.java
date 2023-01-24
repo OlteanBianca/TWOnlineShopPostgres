@@ -8,10 +8,9 @@ import SpringBoot.Repository.ShopInventoryRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.AbstractMap;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
+import java.util.Optional;
 
 @Service
 public class ShopInventoryService {
@@ -19,44 +18,37 @@ public class ShopInventoryService {
     ShopInventoryRepository shopInventoryRepository;
 
 
-    public List<Product> findAllProductsInALlShopsInventories(List<Shop> shops){
-        List<Product> allProducts = new ArrayList<>();
+    public ShopInventory getShopInventoryById(Long id) {
+        var shop = shopInventoryRepository.findById(id);
+        return shop.orElse(null);
+    }
 
-        for (Shop shop:shops) {
-            var products = shopInventoryRepository.findAllByShopId(shop.getId());
+    public List<ShopInventory> findAllProductsInShopsInventories(List<Shop> shops) {
+        List<ShopInventory> allProducts = new ArrayList<>();
 
-            for (ShopInventory inventory: products) {
-                allProducts.add(inventory.getProduct());
-            }
+        for (Shop shop : shops) {
+            allProducts.addAll(shopInventoryRepository.findAllByShopId(shop.getId()));
         }
         return allProducts;
     }
 
-    public List<Product> findAllProductsContainingString(List<Shop> shops, String text){
-        List<Product> allProducts = new ArrayList<>();
+    public List<ShopInventory> findAllProductsInShopInventory(Long shopId) {
+        return shopInventoryRepository.findAllByShopId(shopId);
+    }
 
-        for (Shop shop:shops) {
-            List<ShopInventory> products = shopInventoryRepository.findAllByShopIdAndProductNameContaining(shop.getId(), text);
+    public List<ShopInventory> findAllProductsContainingString(List<Shop> shops, String text) {
+        List<ShopInventory> allProducts = new ArrayList<>();
 
-            for (ShopInventory inventory: products) {
-                allProducts.add(inventory.getProduct());
-            }
+        for (Shop shop : shops) {
+            List<ShopInventory> products = shopInventoryRepository.findAllByShopIdAndProductNameContaining(
+                    shop.getId(), text);
+
+            allProducts.addAll(products);
         }
         return allProducts;
     }
 
-    public List<Map.Entry<Product, Integer>> findAllProductsQuantityInShopInventory(Long id){
-        List<Map.Entry<Product, Integer>> allProducts = new ArrayList<>();
-        var products = shopInventoryRepository.findAllByShopId(id);
-
-        for (ShopInventory inventory: products) {
-
-            allProducts.add(new AbstractMap.SimpleEntry<>(inventory.getProduct(), inventory.getQuantity()));
-        }
-        return allProducts;
-    }
-
-    public void addProductToInventory(Shop shop, Product product, int quantity){
+    public void addProductToInventory(Shop shop, Product product, int quantity) {
         ShopInventory shopInventory = new ShopInventory();
         shopInventory.setProduct(product);
         shopInventory.setShop(shop);
@@ -64,17 +56,27 @@ public class ShopInventoryService {
         shopInventoryRepository.save(shopInventory);
     }
 
-    public boolean isProductQuantityInInventory(Long productId, Long shopId, int quantity){
-         ShopInventory inventory = shopInventoryRepository.findByProductIdAndShopId(productId, shopId);
+    public boolean isProductQuantityInInventory(Long productId, Long shopId, int quantity) {
+        ShopInventory inventory = shopInventoryRepository.findByProductIdAndShopId(productId, shopId);
 
-         return inventory.getQuantity() >= quantity;
+        return inventory.getQuantity() >= quantity;
     }
 
-    public void updateShopInventory(Long shopId, List<CommandProducts> products){
+    public void updateShopInventory(CommandProducts product) {
 
-        for (CommandProducts command: products) {
-            ShopInventory inventory = shopInventoryRepository.findByProductIdAndShopId(command.getProduct().getId(), shopId);
-            inventory.setQuantity(inventory.getQuantity() - command.getQuantity());
+        ShopInventory inventory = shopInventoryRepository.findByProductIdAndShopId(product.getProduct().getId(),
+                product.getShop().getId());
+        inventory.setQuantity(inventory.getQuantity() - product.getQuantity());
+        shopInventoryRepository.save(inventory);
+    }
+
+    public void updateQuantity(Long shopInventoryId, int quantity) {
+
+        Optional<ShopInventory> shopInventory = shopInventoryRepository.findById(shopInventoryId);
+        if (shopInventory.isPresent()) {
+
+            ShopInventory inventory = shopInventory.get();
+            inventory.setQuantity(quantity);
             shopInventoryRepository.save(inventory);
         }
     }

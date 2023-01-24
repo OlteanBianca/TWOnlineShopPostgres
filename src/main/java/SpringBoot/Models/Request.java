@@ -68,5 +68,4 @@ public class Request {
     @JsonIgnore
     @ToString.Exclude
     private Role role;
-
 }

@@ -12,8 +12,8 @@ import javax.persistence.*;
 @Setter
 @ToString
 @RequiredArgsConstructor
-@Table(name = "CommandProducts")
-public class CommandProducts {
+@Table(name = "ShoppingCartProducts")
+public class ShoppingCartProducts {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -24,9 +24,8 @@ public class CommandProducts {
     @Column(name = "quantity", nullable = false)
     private int quantity;
 
-    @Basic
-    @Column(name = "accepted")
-    private boolean accepted;
+    @ManyToOne(fetch = FetchType.EAGER)
+    private ShoppingCart shoppingCart;
 
     @ManyToOne(fetch = FetchType.EAGER)
     private Shop shop;
@@ -34,13 +33,11 @@ public class CommandProducts {
     @ManyToOne(fetch = FetchType.EAGER)
     private Product product;
 
-    @ManyToOne(fetch = FetchType.EAGER)
-    private Command command;
 
-    public CommandProducts(int quantity, Shop shop, Product product, Command command) {
-        this.command = command;
+    public ShoppingCartProducts(int quantity, Shop shop, Product product, ShoppingCart shoppingCart) {
         this.product = product;
         this.shop = shop;
         this.quantity = quantity;
+        this.shoppingCart = shoppingCart;
     }
 }

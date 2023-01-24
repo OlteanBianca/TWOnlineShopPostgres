@@ -24,7 +24,7 @@ public class CreateProductController {
     public String open(Model model, String error, @RequestParam("Authorization") String token) {
 
         model.addAttribute("product", new Product());
-        model.addAttribute("authorizationToken",token);
+        model.addAttribute("authorizationToken", token);
 
         if (error != null)
             model.addAttribute("error", "Product invalid.");
@@ -34,8 +34,8 @@ public class CreateProductController {
 
     @PostMapping("")
     @PreAuthorize("hasRole('ROLE_ADMIN_BB')")
-    public String createProduct(@ModelAttribute("product") Product product , @RequestParam("Authorization") String token,
-           BindingResult bindingResult) {
+    public String createProduct(@ModelAttribute("product") Product product, @RequestParam("Authorization") String token,
+                                BindingResult bindingResult) {
 
         if (product.getName().isEmpty()) {
 

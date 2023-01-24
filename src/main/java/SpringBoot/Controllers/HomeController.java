@@ -35,7 +35,7 @@ public class HomeController {
     }
 
     @GetMapping("/error")
-    public String error(){
+    public String error() {
         return "loginPage";
     }
 }

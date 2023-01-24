@@ -35,7 +35,7 @@ public class Shop {
     private String code;
 
     @Transient
-    private boolean checked = false;
+    public boolean checked = false;
 
     @ManyToOne(fetch = FetchType.EAGER)
     private ShopFunction shopFunction;
@@ -46,16 +46,21 @@ public class Shop {
     @OneToMany(mappedBy = "shop")
     @JsonIgnore
     @ToString.Exclude
-    private Collection<Command> commands;
+    private Collection<CommandProducts> commands;
 
     @OneToMany(mappedBy = "shop")
     @JsonIgnore
     @ToString.Exclude
     private Collection<ShopInventory> shopInventories;
 
-    public Shop(String name, String address, String code, ShopFunction shopFunction, User user){
+    @OneToMany(mappedBy = "shop")
+    @JsonIgnore
+    @ToString.Exclude
+    private Collection<ShoppingCartProducts> shoppingCartProducts;
+
+    public Shop(String name, String address, String code, ShopFunction shopFunction, User user) {
         this.name = name;
-        this.address= address;
+        this.address = address;
         this.code = code;
         this.shopFunction = shopFunction;
         this.user = user;

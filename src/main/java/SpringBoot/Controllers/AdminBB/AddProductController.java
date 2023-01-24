@@ -8,7 +8,6 @@ import SpringBoot.Security.DBServices.ProductService;
 import SpringBoot.Security.DBServices.ShopInventoryService;
 import SpringBoot.Security.DBServices.ShopService;
 import SpringBoot.Security.DBServices.UserService;
-import SpringBoot.Security.JWT.JwtUtils;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -31,18 +30,18 @@ public class AddProductController {
     private ShopService shopService;
     @Autowired
     private ShopInventoryService shopInventoryService;
-    @Autowired
-    JwtUtils jwtUtils;
-
 
 
     @GetMapping()
     @PreAuthorize("hasRole('ROLE_ADMIN_BB')")
     public String open(Model model, @RequestParam("Authorization") String token) {
 
-        List<Product> allProducts = productService.getAllProducts();
+        User user = userService.getUserFromToken(token);
+        Shop shop = shopService.getShopByUserId(user.getId());
+        List<ShopInventory> inventory = shopInventoryService.findAllProductsInShopInventory(shop.getId());
+
         model.addAttribute("inventory", new ShopInventory());
-        model.addAttribute("allProducts", allProducts);
+        model.addAttribute("allProducts", productService.getAllProductsNotInInventory(inventory));
         model.addAttribute("authorizationToken", token);
 
         return "adminBB/addProductPage";
@@ -50,16 +49,16 @@ public class AddProductController {
 
     @PostMapping("")
     @PreAuthorize("hasRole('ROLE_ADMIN_BB')")
-    public String addProduct(@ModelAttribute("inventory") ShopInventory shopInventory, @RequestParam("Authorization") String token) {
+    public String addProduct(@ModelAttribute("inventory") ShopInventory shopInventory,
+                             @RequestParam("Authorization") String token) {
 
         if (shopInventory != null && shopInventory.getProduct() != null) {
-            Product product = productService.getProductById(shopInventory.getProduct().getId());
 
-            String username = jwtUtils.getUserNameFromJwtToken(token);
-            User user = userService.getUserByUsername(username);
+            Product product = productService.getProductById(shopInventory.getProduct().getId());
+            User user = userService.getUserFromToken(token);
             Shop shop = shopService.getShopByUserId(user.getId());
 
-            if (shop != null && product != null && shopInventory.getQuantity() > 0) {
+            if (shop != null && product != null) {
                 shopInventoryService.addProductToInventory(shop, product, shopInventory.getQuantity());
                 return "redirect:/ROLE_ADMIN_BB?Authorization=" + token;
             }
@@ -69,6 +68,11 @@ public class AddProductController {
 
     @GetMapping("/error")
     public String error() {
+        return "loginPage";
+    }
+
+    @PostMapping("/error")
+    public String errorPage() {
         return "loginPage";
     }
 }

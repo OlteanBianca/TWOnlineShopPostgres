@@ -9,7 +9,5 @@ import java.util.List;
 @Repository
 public interface CommandRepository extends JpaRepository<Command, Long> {
 
-    List<Command> findAllByShopIdAndAcceptedFalse(Long id);
-
-    List<Command> findAllByShopId(Long id);
+    List<Command> findAllByUserId(Long id);
 }

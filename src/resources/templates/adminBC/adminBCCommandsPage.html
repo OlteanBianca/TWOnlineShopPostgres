@@ -39,7 +39,6 @@
             <th>Shop name</th>
             <th>Product Name</th>
             <th>Quantity</th>
-            <th>Approve</th>
         </tr>
 
         <tr th:if="${commands != null && !commands.isEmpty()}">
@@ -49,36 +48,33 @@
             <td th:text="${command.getCommand().getUser().username}"></td>
             <td th:text="${command.getCommand().getUser().email}"></td>
             <td th:text="${command.getShop().name}"></td>
-            <td th:text="${command.product.name}"></td>
-            <td th:text="${command.quantity}"></td>
+            <td th:text="${command.getProduct().name}"></td>
+            <td th:text="${command.getQuantity()}"></td>
 
             <td>
                 <form th:object="${authorizationToken}" th:method="post"
-                      th:action="@{/ROLE_ADMIN_BB/commands/{id}(id=${command.id}, Authorization=${authorizationToken})}">
+                      th:action="@{/ROLE_ADMIN_BC/commands/{id}(id=${command.id}, Authorization=${authorizationToken})}">
                     <div class="text-center text-lg-start mt-4 pt-2" th:if="${command.accepted}">
                         <button class="btn btn-primary btn-lg" style="padding-left: 2.5rem; padding-right: 2.5rem;"
-                                disabled
-                                type="submit"> Approved
+                                disabled type="submit"> Finished
                         </button>
                     </div>
 
                     <div class="text-center text-lg-start mt-4 pt-2" th:if="${!command.accepted}">
                         <button class="btn btn-primary btn-lg" style="padding-left: 2.5rem; padding-right: 2.5rem;"
-                                type="submit"> Approve
+                                type="submit"> Delete
                         </button>
                     </div>
                 </form>
 
             </td>
         </tr>
-
     </table>
-    <span class="has-error" th:text="${error}"></span>
 
     <form th:object="${authorizationToken}">
         <div class="text-center text-lg-start mt-4 pt-2">
             <a class="btn btn-primary btn-lg" style="padding-left: 2.5rem; padding-right: 2.5rem;"
-               th:href="@{/ROLE_ADMIN_BB(Authorization=${authorizationToken})}">
+               th:href="@{/ROLE_ADMIN_BC(Authorization=${authorizationToken})}">
                 Cancel
             </a>
         </div>

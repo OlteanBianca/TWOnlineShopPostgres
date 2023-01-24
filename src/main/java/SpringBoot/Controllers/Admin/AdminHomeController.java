@@ -17,7 +17,7 @@ public class AdminHomeController {
     private RequestService requestService;
 
 
-    @GetMapping( "")
+    @GetMapping("")
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     public String openPage(Model model, @RequestParam("Authorization") String token) {
 
@@ -27,11 +27,11 @@ public class AdminHomeController {
         return "admin/adminHomePage";
     }
 
-    @GetMapping( "/{id}")
+    @GetMapping("/{id}")
     @PreAuthorize("hasRole('ROLE_ADMIN')")
-    public String acceptRequest(@PathVariable("id") String id, @RequestParam("Authorization") String token){
+    public String acceptRequest(@PathVariable("id") String id, @RequestParam("Authorization") String token) {
 
-        if(id != null){
+        if (id != null) {
             requestService.acceptRequest(Long.valueOf(id));
         }
         return "redirect:/ROLE_ADMIN?Authorization=" + token;

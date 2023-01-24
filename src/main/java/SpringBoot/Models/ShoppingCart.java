@@ -14,8 +14,8 @@ import java.util.Collection;
 @Setter
 @ToString
 @RequiredArgsConstructor
-@Table(name = "Command")
-public class Command {
+@Table(name = "ShoppingCart")
+public class ShoppingCart {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -23,14 +23,16 @@ public class Command {
     private Long id;
 
     @ManyToOne(fetch = FetchType.EAGER)
-    private User user;
-
-    @OneToMany(mappedBy = "command")
     @JsonIgnore
     @ToString.Exclude
-    private Collection<CommandProducts> products;
+    private User user;
 
-    public Command(User user){
+    @OneToMany(mappedBy = "shoppingCart")
+    @JsonIgnore
+    @ToString.Exclude
+    private Collection<ShoppingCartProducts> shoppingCartProducts;
+
+    public ShoppingCart(User user) {
         this.user = user;
     }
 }

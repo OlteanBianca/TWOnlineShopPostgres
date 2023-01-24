@@ -64,6 +64,12 @@ public class User {
     @ToString.Exclude
     private Collection<Command> commands;
 
+    @OneToMany(mappedBy = "user")
+    @JsonIgnore
+    @ToString.Exclude
+    private Collection<ShoppingCart> shoppingCarts;
+
+
     public User(String username, String email, String password) {
         this.username = username;
         this.email = email;

@@ -3,68 +3,65 @@
       xmlns:th="http://www.thymeleaf.org">
 <head th:include="fragments/components::header"><title></title></head>
 <head>
-  <meta charset="UTF-8">
-  <title></title>
-  <style>
-    table {
-      font-family: arial, sans-serif;
-      border-collapse: collapse;
-      width: 100%;
-    }
+    <meta charset="UTF-8">
+    <title></title>
+    <style>
+        table {
+            font-family: arial, sans-serif;
+            border-collapse: collapse;
+            width: 100%;
+        }
 
-    td, th {
-      border: 1px solid #dddddd;
-      text-align: left;
-      padding: 8px;
-    }
+        td, th {
+            border: 1px solid #dddddd;
+            text-align: left;
+            padding: 8px;
+        }
 
-    tr:nth-child(even) {
-      background-color: #dddddd;
-    }
-  </style>
+        tr:nth-child(even) {
+            background-color: #dddddd;
+        }
+    </style>
 
 </head>
 <body>
 <div method="GET" class="container mt-4">
 
-  <tr th:if="${commands == null || commands.isEmpty()}">
-    <td colspan="2"> No commands available</td>
-  </tr>
+    <tr th:if="${commands == null || commands.isEmpty()}">
+        <td colspan="2"> No commands available</td>
+    </tr>
 
-  <form method="get" th:object="${commands}" th:action="@{/ROLE_ADMIN_BC/commands}">
-    <table>
-      <tr>
-        <th>Nr.</th>
-        <th>Client</th>
-        <th>Client Email</th>
-        <th>Command</th>
-      </tr>
+    <form method="get" th:object="${commands}" th:action="@{/ROLE_ADMIN_BC/commands}">
+        <table>
+            <tr>
+                <th>Nr.</th>
+                <th>Client</th>
+                <th>Client Email</th>
+                <th>Product</th>
+                <th>Quantity</th>
+            </tr>
 
-      <tr th:if="${commands != null && !commands.isEmpty()}">
+            <tr th:if="${commands != null && !commands.isEmpty()}">
 
-      <tr th:each="command, index : ${commands}">
-        <td th:text="${index.index + 1}"></td>
-        <td th:text="${command.getUser().username}"></td>
-        <td th:text="${command.getUser().email}"></td>
-        <td>
-          <div th:each="productCommand: ${command.getProducts()}">
-            <p th:text="${productCommand.getProduct().name} + '-' + ${productCommand.getQuantity()}"></p>
-          </div>
-        </td>
-      </tr>
+            <tr th:each="command, index : ${commands}">
+                <td th:text="${index.index + 1}"></td>
+                <td th:text="${command.getCommand().getUser().username}"></td>
+                <td th:text="${command.getCommand().getUser().email}"></td>
+                <td th:text="${command.product.name}"></td>
+                <td th:text="${command.quantity}"></td>
+            </tr>
 
-    </table>
+        </table>
 
-    <form th:object="${authorizationToken}">
-      <div class="text-center text-lg-start mt-4 pt-2">
-        <a class="btn btn-primary btn-lg" style="padding-left: 2.5rem; padding-right: 2.5rem;"
-           th:href="@{/ROLE_ADMIN_BC(Authorization=${authorizationToken})}">
-          Cancel
-        </a>
-      </div>
+        <form th:object="${authorizationToken}">
+            <div class="text-center text-lg-start mt-4 pt-2">
+                <a class="btn btn-primary btn-lg" style="padding-left: 2.5rem; padding-right: 2.5rem;"
+                   th:href="@{/ROLE_ADMIN_BC(Authorization=${authorizationToken})}">
+                    Cancel
+                </a>
+            </div>
+        </form>
     </form>
-  </form>
-
 
 </div>
 

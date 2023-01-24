@@ -29,13 +29,8 @@
 
                     <!-- quantity -->
                     <div class="form-floating mb-3">
-                        <input id="quantity"
-                               name="quantity"
-                               type="number"
-                               class="form-control"
-                               placeholder="Quantity"
-                               th:field="*{quantity}"
-                               autofocus="autofocus">
+                        <input id="quantity" name="quantity" type="number" class="form-control" placeholder="Quantity"
+                               th:field="*{quantity}" autofocus="autofocus" th:min="1">
                         <label for="quantity">Quantity</label>
                     </div>
                 </div>

@@ -10,26 +10,18 @@
             <h2 class="form-heading text-center">Log in</h2>
 
             <div class="form-group">
+
                 <!-- Username -->
                 <div class="form-floating mb-3">
-                    <input id="floatingInput"
-                           name="username"
-                           type="text"
-                           th:field="*{username}"
-                           class="form-control"
-                           placeholder="Type your username here..."
-                           autofocus="autofocus"/>
+                    <input id="floatingInput" name="username" type="text" th:field="*{username}" class="form-control"
+                           placeholder="Type your username here..." autofocus="autofocus"/>
                     <label for="floatingInput">Username</label>
                 </div>
 
                 <!-- Password -->
                 <div class="form-floating">
-                    <input id="floatingPassword"
-                           name="password"
-                           type="password"
-                           th:field="*{password}"
-                           class="form-control"
-                           placeholder="Type you password here..."/>
+                    <input id="floatingPassword" name="password" type="password" th:field="*{password}"
+                           class="form-control" placeholder="Type you password here..."/>
                     <label for="floatingPassword">Password</label>
                 </div>
 

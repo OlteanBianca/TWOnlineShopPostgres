@@ -36,6 +36,12 @@
             <version>3.0.5.RELEASE</version>
         </dependency>
 
+        <dependency>
+            <groupId>org.javatuples</groupId>
+            <artifactId>javatuples</artifactId>
+            <version>1.2</version>
+        </dependency>
+
         <!-- Lombok reduce boilerplate code (getters, setters etc.) -->
         <dependency>
             <groupId>org.projectlombok</groupId>

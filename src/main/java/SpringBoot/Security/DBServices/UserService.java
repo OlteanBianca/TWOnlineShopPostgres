@@ -6,6 +6,7 @@ import SpringBoot.Models.Role;
 import SpringBoot.Models.User;
 import SpringBoot.Repository.RoleRepository;
 import SpringBoot.Repository.UserRepository;
+import SpringBoot.Security.JWT.JwtUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -18,12 +19,19 @@ public class UserService {
     @Autowired
     private RoleRepository roleRepository;
     @Autowired
+    private JwtUtils jwtUtils;
+    @Autowired
     private PasswordEncoder encoder;
 
 
     public User getUserByUsername(String username) {
         var addedUser = userRepository.findByUsername(username);
         return addedUser.orElse(null);
+    }
+
+    public User getUserFromToken(String token) {
+        String username = jwtUtils.getUserNameFromJwtToken(token);
+        return getUserByUsername(username);
     }
 
     public Role getUserRole(String role) {
@@ -65,7 +73,7 @@ public class UserService {
 
     public void updatePassword(Long id, String password) {
         var user = userRepository.findById(id);
-        if(user.isPresent()){
+        if (user.isPresent()) {
             User updateUser = user.get();
             updateUser.setPassword(encoder.encode(password));
             userRepository.save(updateUser);

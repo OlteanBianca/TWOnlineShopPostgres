@@ -10,6 +10,7 @@ import java.util.List;
 public interface ShopInventoryRepository extends JpaRepository<ShopInventory, Long> {
 
     List<ShopInventory> findAllByShopId(Long id);
+
     ShopInventory findByProductIdAndShopId(Long productId, Long shopId);
 
     List<ShopInventory> findAllByShopIdAndProductNameContaining(Long id, String text);

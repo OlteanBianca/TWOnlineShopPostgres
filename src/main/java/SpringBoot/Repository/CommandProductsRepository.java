@@ -9,5 +9,7 @@ import java.util.List;
 @Repository
 public interface CommandProductsRepository extends JpaRepository<CommandProducts, Long> {
 
+    List<CommandProducts> findAllByShopId(Long id);
+
     List<CommandProducts> findAllByCommandId(Long id);
 }

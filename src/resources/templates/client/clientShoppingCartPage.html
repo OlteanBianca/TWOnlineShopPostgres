@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <div th:include="fragments/components::header"></div>
+    <title>Online Shop</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Montserrat">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+</head>
+
+<style>
+    .w3-sidebar a {
+        font-family: "Roboto", sans-serif
+    }
+
+    body, h1, h2, h3, h4, h5, h6, p, input {
+        font-family: "Montserrat", sans-serif;
+    }
+</style>
+
+<body class="w3-content" style="max-width:1450px">
+
+
+<div class="w3-main">
+
+    <span class="has-error" th:text="${error}"></span>
+
+    <tr th:if="${products == null || products.isEmpty()}">
+        <td colspan="2"> No Products Available</td>
+    </tr>
+
+    <div class="w3-row-padding w3-center w3-light-grey" style="max-width:1250px">
+        <tr th:if="${products != null && !products.isEmpty()}">
+        <tr th:each="product, index: ${products}">
+            <div class="w3-col s4 w3-border w3-left-align w3-margin" style="max-width: 350px">
+                <h3 th:text="${product.getProduct().name}"></h3>
+                <h4 th:if="${product.getProduct().description != null}"
+                    th:text="${'Description: ' + product.getProduct().description}"></h4>
+                <h4 th:if="${product.getProduct().expirationDate != null}"
+                    th:text="${'Expiration date: ' + product.getProduct().expirationDate}"></h4>
+                <h4 th:text="${'Shop: ' + product.getShop().name}"></h4>
+                <h4 th:text="${'Quantity ' + product.getQuantity()}"></h4>
+            </div>
+        </tr>
+
+        <form th:object="${authorizationToken}" th:method="post"
+              th:action="@{/ROLE_CLIENT/shoppingCart/delete(Authorization=${authorizationToken})}">
+            <div class="w3-row-padding">
+                <div class="text-center text-lg-start">
+                    <button class="btn btn-primary btn-lg w3-blue-gray w3-margin-top w3-center"
+                            style="padding-left: 2.5rem; padding-right: 2.5rem;" type="submit"> Empty shopping cart
+                    </button>
+                </div>
+            </div>
+        </form>
+
+        <form th:object="${authorizationToken}" th:method="post"
+              th:action="@{/ROLE_CLIENT/shoppingCart/save(Authorization=${authorizationToken})}">
+            <div class="w3-row-padding">
+                <div class="text-center text-lg-start">
+                    <button class="btn btn-primary btn-lg w3-blue-gray w3-margin-top w3-center"
+                            style="padding-left: 2.5rem; padding-right: 2.5rem;" type="submit"> Send command
+                    </button>
+                </div>
+            </div>
+        </form>
+
+        <form th:object="${authorizationToken}">
+            <div class="w3-row-padding">
+                <div class="text-center text-lg-start">
+                    <a class="btn btn-primary btn-lg w3-blue-gray w3-margin-top w3-center"
+                       th:href="@{/ROLE_CLIENT(Authorization=${authorizationToken})}">
+                        Cancel
+                    </a>
+                </div>
+            </div>
+        </form>
+
+    </div>
+</div>
+
+<div th:include="fragments/components::bootstrap_script"></div>
+
+</body>
+</html>

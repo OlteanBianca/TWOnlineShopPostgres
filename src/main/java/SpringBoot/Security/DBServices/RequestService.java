@@ -21,19 +21,19 @@ public class RequestService {
     @Autowired
     private PasswordEncoder encoder;
 
-    public void addNewRequest(Request request){
+    public void addNewRequest(Request request) {
         request.setPassword(encoder.encode(request.getPassword()));
         requestRepository.save(request);
     }
 
-    public List<Request> getActiveRequests(){
+    public List<Request> getActiveRequests() {
         return requestRepository.findAllByApprovedFalse();
     }
 
-    public void acceptRequest(Long id){
+    public void acceptRequest(Long id) {
 
         var value = requestRepository.findById(id);
-        if(value.isPresent()){
+        if (value.isPresent()) {
             Request request = value.get();
             User user = userService.addNewUser(request);
             shopService.addNewShop(request, user);

@@ -27,8 +27,8 @@ public class UserValidatorService implements Validator {
     public void validate(Object userEntity, Errors errors) {
         Request request = (Request) userEntity;
 
-        if(request.getRoleName().equals("admin_bb") || request.getRoleName().equals("admin_bc")) {
-          validateShop(errors);
+        if (request.getRoleName().equals("admin_bb") || request.getRoleName().equals("admin_bc")) {
+            validateShop(errors);
         }
 
         validateEmail(request.getEmail(), errors);
@@ -36,7 +36,7 @@ public class UserValidatorService implements Validator {
         validatePassword(request.getPassword(), request.getPasswordConfirm(), errors);
     }
 
-    public void validatePassword(String password, String confirmPassword, Errors errors){
+    public void validatePassword(String password, String confirmPassword, Errors errors) {
         /*
            at least 8 digits {8,}
            at least one number (?=.*\d)
@@ -49,19 +49,19 @@ public class UserValidatorService implements Validator {
 
         ValidationUtils.rejectIfEmptyOrWhitespace(errors, "password", "user.isPasswordEmpty");
 
-        if(!password.matches(passwordRegexPattern))
+        if (!password.matches(passwordRegexPattern))
             errors.rejectValue("password", "user.isValidPassword");
 
-        if(!password.equals(confirmPassword))
+        if (!password.equals(confirmPassword))
             errors.rejectValue("passwordConfirm", "user.isPasswordTheSame");
     }
 
-    public void validateEmail(String email, Errors errors){
+    public void validateEmail(String email, Errors errors) {
 
         /* Typical email format: email@domain.com */
         String emailRegexPattern = "^[a-zA-Z0-9_+&*-]+(?:\\.[a-zA-Z0-9_+&*-]+)*@(?:[a-zA-Z0-9-]+\\.)+[a-zA-Z]{2,7}$";
 
-        if(!email.matches(emailRegexPattern))
+        if (!email.matches(emailRegexPattern))
             errors.rejectValue("email", "user.isValidEmail");
 
         if (userService.emailAlreadyExists(email)) {
@@ -69,7 +69,7 @@ public class UserValidatorService implements Validator {
         }
     }
 
-    public void validateUsername(String username, Errors errors){
+    public void validateUsername(String username, Errors errors) {
 
         ValidationUtils.rejectIfEmptyOrWhitespace(errors, "username", "user.isUsernameEmpty");
 
@@ -81,7 +81,7 @@ public class UserValidatorService implements Validator {
         }
     }
 
-    public void validateShop(Errors errors){
+    public void validateShop(Errors errors) {
 
         ValidationUtils.rejectIfEmptyOrWhitespace(errors, "address", "address.isAddressEmpty");
         ValidationUtils.rejectIfEmptyOrWhitespace(errors, "code", "code.isCodeEmpty");
