@@ -42,6 +42,7 @@ public class AdminBBHomeController {
     }
 
     @PostMapping("{id}")
+    @PreAuthorize("hasRole('ROLE_ADMIN_BB')")
     public String save(@PathVariable String id, @ModelAttribute("updatedInventory") ShopInventory shopInventory,
                        @RequestParam("Authorization") String token) {
 
