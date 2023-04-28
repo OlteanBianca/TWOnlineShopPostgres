@@ -23,6 +23,7 @@ public class CommandService {
     private ShoppingCartService shoppingCartService;
 
 
+
     public List<CommandProducts> getAllCommandsForOneShop(Long shopId) {
         return commandProductsRepository.findAllByShopId(shopId);
     }

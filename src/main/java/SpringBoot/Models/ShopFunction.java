@@ -12,7 +12,7 @@ import java.util.Collection;
 @Getter
 @Setter
 @ToString
-@Table(name = "ShopFunction")
+@Table(name = "ShopFunction", schema = "public", catalog = "SpringBoot")
 public class ShopFunction {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

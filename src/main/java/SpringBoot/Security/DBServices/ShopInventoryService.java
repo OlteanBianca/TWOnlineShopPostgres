@@ -19,8 +19,7 @@ public class ShopInventoryService {
 
 
     public ShopInventory getShopInventoryById(Long id) {
-        var shop = shopInventoryRepository.findById(id);
-        return shop.orElse(null);
+        return shopInventoryRepository.findById(id).orElse(null);
     }
 
     public List<ShopInventory> findAllProductsInShopsInventories(List<Shop> shops) {
@@ -49,10 +48,7 @@ public class ShopInventoryService {
     }
 
     public void addProductToInventory(Shop shop, Product product, int quantity) {
-        ShopInventory shopInventory = new ShopInventory();
-        shopInventory.setProduct(product);
-        shopInventory.setShop(shop);
-        shopInventory.setQuantity(quantity);
+        ShopInventory shopInventory = new ShopInventory(quantity, shop, product);
         shopInventoryRepository.save(shopInventory);
     }
 

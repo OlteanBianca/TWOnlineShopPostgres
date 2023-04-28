@@ -21,8 +21,10 @@ public class RequestService {
     @Autowired
     private PasswordEncoder encoder;
 
+
+
     public void addNewRequest(Request request) {
-        request.setPassword(encoder.encode(request.getPassword()));
+        request.setPassword(request.getPassword());
         requestRepository.save(request);
     }
 

@@ -12,7 +12,7 @@ import javax.persistence.*;
 @Setter
 @ToString
 @RequiredArgsConstructor
-@Table(name = "CommandProducts")
+@Table(name = "CommandProducts", schema = "public", catalog = "SpringBoot")
 public class CommandProducts {
 
     @Id

@@ -14,7 +14,7 @@ import java.util.Collection;
 @Setter
 @ToString
 @RequiredArgsConstructor
-@Table(name = "Shop")
+@Table(name = "Shop", schema = "public", catalog = "SpringBoot")
 public class Shop {
 
     @Id

@@ -12,7 +12,7 @@ import javax.persistence.*;
 @Setter
 @ToString
 @RequiredArgsConstructor
-@Table(name = "ShopInventory")
+@Table(name = "ShopInventory", schema = "public", catalog = "SpringBoot")
 public class ShopInventory {
 
     @Id
@@ -29,4 +29,10 @@ public class ShopInventory {
 
     @ManyToOne(fetch = FetchType.EAGER)
     private Product product;
+
+    public ShopInventory(int quantity, Shop shop, Product product){
+        this.quantity = quantity;
+        this.shop = shop;
+        this.product = product;
+    }
 }

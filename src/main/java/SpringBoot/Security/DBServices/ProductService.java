@@ -21,8 +21,7 @@ public class ProductService {
     }
 
     public Product getProductById(Long id) {
-        var product = productRepository.findById(id);
-        return product.orElse(null);
+        return productRepository.findById(id).orElse(null);
     }
 
     public List<Product> getAllProductsNotInInventory(List<ShopInventory> inventory) {

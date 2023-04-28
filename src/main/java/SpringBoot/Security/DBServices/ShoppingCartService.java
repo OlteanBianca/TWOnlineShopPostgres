@@ -21,6 +21,7 @@ public class ShoppingCartService {
     private ShoppingCartProductsRepository shoppingCartProductsRepository;
 
 
+
     public ShoppingCart addShoppingCart(User user) {
         return shoppingCartRepository.save(new ShoppingCart(user));
     }

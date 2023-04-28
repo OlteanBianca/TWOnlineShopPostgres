@@ -16,7 +16,7 @@ import javax.validation.constraints.Size;
 @Setter
 @ToString
 @RequiredArgsConstructor
-@Table(name = "Request")
+@Table(name = "Request", schema = "public", catalog = "SpringBoot")
 public class Request {
 
     @Id

@@ -24,14 +24,10 @@ public class UserService {
     private PasswordEncoder encoder;
 
 
-    public User getUserByUsername(String username) {
-        var addedUser = userRepository.findByUsername(username);
-        return addedUser.orElse(null);
-    }
 
     public User getUserFromToken(String token) {
         String username = jwtUtils.getUserNameFromJwtToken(token);
-        return getUserByUsername(username);
+        return userRepository.findByUsername(username).orElse(null);
     }
 
     public Role getUserRole(String role) {
@@ -56,11 +52,9 @@ public class UserService {
         if (userForm.getRole() != null) {
             user.setRole(userForm.getRole());
         } else {
-            user.setRole(getUserRole(user.getRoleName()));
+            user.setRole(getUserRole(userForm.getRoleName()));
         }
-        userRepository.save(user);
-
-        return getUserByUsername(user.getUsername());
+        return userRepository.save(user);
     }
 
     public boolean usernameAlreadyExists(String username) {

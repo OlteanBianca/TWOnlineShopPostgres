@@ -10,7 +10,7 @@ import java.util.Collection;
 @Getter
 @Setter
 @ToString
-@Table(name = "Role")
+@Table(name = "Role", schema = "public", catalog = "SpringBoot")
 public class Role {
 
     @Id
